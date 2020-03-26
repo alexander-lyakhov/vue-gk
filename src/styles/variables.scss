@@ -1,0 +1,30 @@
+﻿//@import 'material-colors/dist/colors.scss';
+@import url('https://fonts.googleapis.com/css?family=Exo+2');
+
+$font-primary: 'Exo 2';
+$page-width: 960px;
+
+$bg-body: #37474F;
+$bg-main: #37474F;
+
+$color-primary: #e0e0e0;
+
+@mixin drop-shadow {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+@mixin x-center {
+  display: flex;
+  justify-content: center;
+}
+
+@mixin y-center {
+  display: flex;
+  align-items: center;
+}
+
+@mixin center-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
