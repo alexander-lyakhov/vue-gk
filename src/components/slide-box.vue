@@ -17,7 +17,7 @@ export default {
     displayField: {
       type: String,
       default: null
-    }
+    },
   },
 
   created() {
@@ -31,17 +31,23 @@ export default {
     console.log(this.img)
   },
 
+  watch: {
+    isOpen(value) {
+      value && this.open();
+    }
+  },
+
   methods: {
     bindEvents() {
       window.addEventListener('click', this.clickHandler);
       document.body.addEventListener('keydown', this.keydownHandler);
-      this.closeButton.addEventListener('click', this.close);
+      this.$refs.closeButton.addEventListener('click', this.close);
     },
 
     unbindEvents() {
       window.removeEventListener('click', this.clickHandler);
       document.body.removeEventListener('keydown', this.keydownHandler);
-      this.closeButton.removeEventListener('click', this.close);
+      this.$refs.closeButton.removeEventListener('click', this.close);
     },
 
     clickHandler(e) {
@@ -142,15 +148,18 @@ export default {
     },
 
     open(startFrom = 1) {
-      document.body.classList.add('noscroll');
+      console.log('slidebox is opened', startFrom);
+      document.body.style.overflow = 'hidden';
 
+      /*
       this.data.current = startFrom > this.data.total ? 1 : parseInt(startFrom);
       this.updateStatus();
 
       this.loadImage();
-      this.el.style.display = 'flex';
+      */
+      this.$el.style.display = 'flex';
 
-      this.bindEvents();
+      //this.bindEvents();
     },
 
     close(e) {
