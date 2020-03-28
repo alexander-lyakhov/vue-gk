@@ -7,8 +7,8 @@
 
 <script>
 
-import gridFlow from '@/components/grid-flow.vue';
-import slideBox from '@/components/slide-box.vue';
+import gridFlow from '@/components/grid-flow';
+import slideBox from '@/components/slide-box';
 import { mapState } from 'vuex';
 
 export default {
