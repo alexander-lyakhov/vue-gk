@@ -1,6 +1,8 @@
 ﻿<template>
   <div class="gallery-page">
+    <!--
     <grid-flow :items="items" :spacing="8" @click="onGridClick" />
+    -->
     <slide-box :items="items" ref="slidebox" />
   </div>
 </template>
@@ -25,6 +27,10 @@ export default {
 
   computed: {
     ...mapState(['items']),
+  },
+
+  mounted1() {
+    this.$refs.slidebox.open();
   },
 
   methods: {

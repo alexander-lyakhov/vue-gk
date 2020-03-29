@@ -90,12 +90,15 @@ export default {
     },
 
     showSpinner() {
+      console.log('-- showSpinner');
+
       this.spinnerTimeoutID = setTimeout(
         () => this.spinner.style.display = 'block', 250
       )
     },
 
     hideSpinner() {
+      console.log('-- hideSpinner');
       clearTimeout(this.spinnerTimeoutID);
       this.spinner.style.display = 'none';
     },
@@ -115,9 +118,15 @@ export default {
     },
 
     loadImage() {
+      this.showSpinner();
+
       return new Promise(resolve => {
         delete this.img.onload;
-        this.img.onload = (e) => resolve(e.target);
+
+        this.img.onload = (e) => {
+          this.hideSpinner();
+          resolve(e.target);
+        }
 
         let src = this.displayField ?
           unescape(this.items[this.current - 1][this.displayField]):
@@ -136,7 +145,6 @@ export default {
       this.img.classList.remove(from);
 
       return this.play(to).then(target => {
-        this.hideSpinner();
         this.bindEvents();
         this.img.classList.remove(to)
 
