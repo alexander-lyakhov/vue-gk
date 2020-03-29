@@ -1,7 +1,7 @@
 ﻿<template>
   <div class="gallery-page">
     <grid-flow :items="items" :spacing="8" @click="onGridClick" />
-    <slide-box ref="slidebox" />
+    <slide-box :items="items" ref="slidebox" />
   </div>
 </template>
 

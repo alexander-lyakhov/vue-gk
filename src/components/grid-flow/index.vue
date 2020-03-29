@@ -42,6 +42,8 @@ export default {
   methods: {
     handleClick(e) {
       console.log(e.target);
+      e.preventDefault();
+      e.stopPropagation();
 
       if (!e.target.classList.contains('dummy')) {
         this.$emit('click', e.target);

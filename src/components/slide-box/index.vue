@@ -8,29 +8,21 @@
   </div>
 </template>
 
+<style lang="sass?outputStyle=expanded" scoped src="./styles.scss"></style>
+
 <script>
 
-import { mapState } from 'vuex';
-
-const NEXT = {
-  IN: 'slide-in-next',
-  OUT: 'slide-out-next'
-}
-
-const PREV = {
-  IN: 'slide-in-prev',
-  OUT: 'slide-out-prev'
-}
-
-const ZOOM = {
-  IN: 'scale-in-next',
-  OUT: 'scale-out-next'
-}
+import { NEXT, PREV } from './animations.js';
 
 export default {
   name: 'slide-box',
 
   props: {
+    items: {
+      type: Array,
+      default: []
+    },
+
     displayField: {
       type: String,
       default: null
@@ -50,8 +42,14 @@ export default {
 
   mounted() {
     this.img = this.$refs.img;
+    this.spinner = this.$refs.spinner;
+    this.closeButton = this.$refs.closeButton;
 
     console.log(this.img)
+  },
+
+  beforeDestroy() {
+    this.unbindEvents();
   },
 
   watch: {
@@ -61,8 +59,6 @@ export default {
   },
 
   computed: {
-    ...mapState(['items']),
-
     total() {
       return this.items.length;
     }
@@ -72,13 +68,13 @@ export default {
     bindEvents() {
       window.addEventListener('click', this.clickHandler);
       document.body.addEventListener('keydown', this.keydownHandler);
-      this.$refs.closeButton.addEventListener('click', this.close);
+      this.closeButton.addEventListener('click', this.close);
     },
 
     unbindEvents() {
       window.removeEventListener('click', this.clickHandler);
       document.body.removeEventListener('keydown', this.keydownHandler);
-      this.$refs.closeButton.removeEventListener('click', this.close);
+      this.closeButton.removeEventListener('click', this.close);
     },
 
     clickHandler(e) {
@@ -101,7 +97,7 @@ export default {
 
     hideSpinner() {
       clearTimeout(this.spinnerTimeoutID);
-      this.$refs.spinner.style.display = 'none';
+      this.spinner.style.display = 'none';
     },
 
     prev(className) {
@@ -166,25 +162,22 @@ export default {
       this.current += step;
 
       if (this.current < 1) {
-        this.current = this.data.total;
+        this.current = this.total;
       }
 
       if (this.current > this.total) {
         this.current = 1;
       }
 
-      //this.status.textContent = `${this.data.current} / ${this.data.total}`;
-
       return this.current - 1;
     },
 
     open(startFrom = 1) {
-      console.log('slidebox is opened', startFrom);
       document.body.style.overflow = 'hidden';
 
       this.current = startFrom > this.total ? 1 : parseInt(startFrom);
       this.updateStatus();
-      //this.loadImage();
+      this.loadImage();
       this.$el.style.display = 'flex';
 
       this.bindEvents();
@@ -192,12 +185,10 @@ export default {
 
     close(e) {
       e.stopPropagation();
-      document.body.classList.remove('noscroll');
-      this.el.style.display = 'none';
-      this.triggerEvent('close', this.data.current);
+      document.body.style.overflow = 'visible';
+      this.$el.style.display = 'none';
+      this.$emit('close', this.current);
     }
   }
 }
 </script>
-
-<style lang="sass?outputStyle=expanded" scoped src="./index.scss"></style>
